@@ -12,7 +12,7 @@ import RxXRepository
 import RxSwift
 import RxCocoa
 
-extension UserDefaultsRepository: ReactiveRepository {
+extension UserDefaultsRepository: RxRepository {
   public func observeAll() -> Observable<AnyRandomAccessCollection<Model>> {
     return userDefault.rx
       .observe(Data.self, key)
