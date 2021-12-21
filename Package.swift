@@ -9,11 +9,11 @@ let package = Package(
     // Products define the executables and libraries a package produces, and make them visible to other packages.
     .library(
       name: "RxXRepository",
-      targets: ["RxXRepository"]),
-    
-    .library(
-      name: "RxXRepositoryUserDefaults",
-      targets: ["RxXRepositoryUserDefaults"])
+      targets: ["RxXRepository"])
+//
+//    .library(
+//      name: "RxXRepositoryUserDefaults",
+//      targets: ["RxXRepositoryUserDefaults"])
   ],
   dependencies: [
     // Dependencies declare other packages that this package depends on.
@@ -31,14 +31,14 @@ let package = Package(
         .product(name: "RxCocoa", package: "RxSwift")
       ]),
     
-    .target(
-      name: "RxXRepositoryUserDefaults",
-      dependencies: [
-        "RxXRepository",
-        .product(name: "XRepository", package: "XRepository"),
-        .product(name: "XRepositoryUserDefaults", package: "XRepository"),
-        .product(name: "RxSwift", package: "RxSwift"),
-        .product(name: "RxCocoa", package: "RxSwift")
-      ])
+//    .target(
+//      name: "RxXRepositoryUserDefaults",
+//      dependencies: [
+//        "RxXRepository",
+//        .product(name: "XRepository", package: "XRepository"),
+//        .product(name: "XRepositoryUserDefaults", package: "XRepository"),
+//        .product(name: "RxSwift", package: "RxSwift"),
+//        .product(name: "RxCocoa", package: "RxSwift")
+//      ])
   ]
 )
