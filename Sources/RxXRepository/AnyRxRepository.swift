@@ -27,7 +27,7 @@ public final class AnyRxRepository<Model>: Repository {
   private let _performTranscation: (() -> Void) -> Error?
   
   public init<A: Repository & RxRepository>(_ repository: A) where A.Model == Model {
-    rx = ReactiveRepositoryWrapper(repository)
+    rx = RxRepositoryWrapper(repository)
     _getAll = repository.getAll
     _getElement = repository.getElement
     _getElements = repository.getElements
