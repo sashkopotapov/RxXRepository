@@ -12,7 +12,7 @@ import RxSwift
 
 // Default implementations
 extension RxRepository where Self: AnyObject, Self: Repository {
-  func getAll() -> Single<AnyRandomAccessCollection<Model>> {
+  public func getAll() -> Single<AnyRandomAccessCollection<Model>> {
     return Single.create { [weak self] single -> Disposable in
       let models = self?.getAll() ?? AnyRandomAccessCollection([])
       single(.success(models))
@@ -20,7 +20,7 @@ extension RxRepository where Self: AnyObject, Self: Repository {
     }
   }
   
-  func getElement<Id>(withId id: Id) -> Single<Model?> {
+  public func getElement<Id>(withId id: Id) -> Single<Model?> {
     return Single.create { [weak self] single -> Disposable in
       let model = self?.getElement(withId: id)
       single(.success(model))
@@ -28,7 +28,7 @@ extension RxRepository where Self: AnyObject, Self: Repository {
     }
   }
   
-  func getElements(filteredBy filter: Query<Model>?, sortedBy sortMode: ComparableKeyPath<Model>?, distinctUsing distinctMode: HashableKeyPath<Model>?) -> Single<AnyRandomAccessCollection<Model>> {
+  public func getElements(filteredBy filter: Query<Model>?, sortedBy sortMode: ComparableKeyPath<Model>?, distinctUsing distinctMode: HashableKeyPath<Model>?) -> Single<AnyRandomAccessCollection<Model>> {
     return Single.create { [weak self] single -> Disposable in
       let models = self?.getElements(filteredBy: filter, sortedBy: sortMode, distinctUsing: distinctMode) ?? AnyRandomAccessCollection([])
       single(.success(models))
@@ -36,7 +36,7 @@ extension RxRepository where Self: AnyObject, Self: Repository {
     }
   }
   
-  func create(_ model: Model) -> Single<Model> {
+  public func create(_ model: Model) -> Single<Model> {
     return Single.create { [weak self] single -> Disposable in
       let result: RepositoryEditResult = self?.create(model) ?? .error(ReferenceError.weakReferenceNil)
       switch result {
@@ -50,7 +50,7 @@ extension RxRepository where Self: AnyObject, Self: Repository {
     }
   }
   
-  func create(_ models: [Model]) -> Single<[Model]> {
+  public func create(_ models: [Model]) -> Single<[Model]> {
     return Single.create { [weak self] single -> Disposable in
       let result: RepositoryEditResult = self?.create(models) ?? .error(ReferenceError.weakReferenceNil)
       switch result {
@@ -64,7 +64,7 @@ extension RxRepository where Self: AnyObject, Self: Repository {
     }
   }
   
-  func update(_ model: Model) -> Single<Model> {
+  public func update(_ model: Model) -> Single<Model> {
     return Single.create { [weak self] single -> Disposable in
       let result: RepositoryEditResult = self?.update(model) ?? .error(ReferenceError.weakReferenceNil)
       switch result {
@@ -78,7 +78,7 @@ extension RxRepository where Self: AnyObject, Self: Repository {
     }
   }
   
-  func delete(_ model: Model) -> Completable {
+  public func delete(_ model: Model) -> Completable {
     return Completable.create { [weak self] completable -> Disposable in
       if let error = self?.delete(model) {
         completable(.error(error))
@@ -90,7 +90,7 @@ extension RxRepository where Self: AnyObject, Self: Repository {
     }
   }
   
-  func delete(_ models: [Model]) -> Completable {
+  public func delete(_ models: [Model]) -> Completable {
     return Completable.create { [weak self] completable -> Disposable in
       if let error = self?.delete(models) {
         completable(.error(error))
@@ -102,7 +102,7 @@ extension RxRepository where Self: AnyObject, Self: Repository {
     }
   }
   
-  func deleteAll() -> Completable {
+  public func deleteAll() -> Completable {
     return Completable.create { [weak self] completable -> Disposable in
       if let error = self?.deleteAll() {
         completable(.error(error))
@@ -114,7 +114,7 @@ extension RxRepository where Self: AnyObject, Self: Repository {
     }
   }
   
-  func performTransaction(_ transaction: @escaping () -> Void) -> Completable {
+  public func performTransaction(_ transaction: @escaping () -> Void) -> Completable {
     return Completable.create { completable -> Disposable in
       transaction()
       completable(.completed)
