@@ -2,11 +2,10 @@
 //  RxXRepositoryUserDefaultsTests.swift
 //  RxXRepositoryUserDefaultsTests
 //
-//  Created by Oleksandr Potapov on 21.12.2021.
+//  Created by Sashko Potapov on 21.12.2021.
 //
 
 import XCTest
-@testable import RxXRepositoryUserDefaults
 
 class RxXRepositoryUserDefaultsTests: XCTestCase {
 

@@ -2,7 +2,7 @@
 //  AnyRxRepository.swift
 //  RxXRepository
 //
-//  Created by Oleksandr Potapov on 21.12.2021.
+//  Created by Sashko Potapov on 21.12.2021.
 //
 
 import Foundation
