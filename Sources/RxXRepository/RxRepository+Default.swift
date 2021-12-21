@@ -11,7 +11,7 @@ import XRepositoryUserDefaults
 import RxSwift
 
 // Default implementations
-extension RxRepository where Self: AnyClass, Self: Repository {
+extension RxRepository where Self: AnyObject, Self: Repository {
   func getAll() -> Single<AnyRandomAccessCollection<Model>> {
     return Single.create { [weak self] single -> Disposable in
       let models = self?.getAll() ?? AnyRandomAccessCollection([])
