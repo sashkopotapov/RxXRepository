@@ -34,6 +34,7 @@ let package = Package(
     .target(
       name: "RxXRepositoryUserDefaults",
       dependencies: [
+        "RxXRepository"
         .product(name: "XRepository", package: "XRepository"),
         .product(name: "XRepositoryUserDefaults", package: "XRepository"),
         .product(name: "RxSwift", package: "RxSwift"),
