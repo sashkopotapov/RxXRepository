@@ -1,63 +1,16 @@
 //
-//  UserDefaultsRepository+Rx.swift
-//  RxCocoa
+//  RxRepositoryExtensions.swift
+//  RxXRepository
 //
-//  Created by Sashko Potapov on 21.12.2021.
+//  Created by Oleksandr Potapov on 06.01.2022.
 //
 
 import Foundation
-import XRepository
-import XRepositoryUserDefaults
-import RxXRepository
 import RxSwift
-import RxCocoa
+import XRepository
 
-extension UserDefaultsRepository: RxRepository {
-  public func observeAll() -> Observable<AnyRandomAccessCollection<Model>> {
-    return userDefault.rx
-      .observe(Data.self, key)
-      .compactMap({ $0 })
-      .compactMap({ [weak self] in
-        guard let weakself = self else { return nil }
-        return AnyRandomAccessCollection(Array(try weakself.decoder.decode(Set<Model>.self, from: $0)))
-      })
-      .share(replay: 1)
-  }
-  
-  public func observeElement<Id>(withId id: Id) -> Observable<Model> {
-    return observeAll()
-      .compactMap({ collection in
-        guard let correctId = id as? Model.Identifier else { return nil }
-        return collection.filter({ $0.id == correctId }).first
-      })
-      .share(replay: 1)
-  }
-  
-  public func observeElements(filteredBy filter: Query<Model>?, sortedBy sortKeyPath: ComparableKeyPath<Model>?, distinctUsing distinctMode: HashableKeyPath<Model>?) -> Observable<AnyRandomAccessCollection<Model>> {
-    return observeAll()
-      .compactMap({ collection in
-        var collection = collection
-        if let query = filter {
-          let result = collection.filter({ query.evaluate($0) })
-          collection = AnyRandomAccessCollection(result)
-        }
-        
-        if let sortKeyPath = sortKeyPath {
-          let result = collection.sorted(by: sortKeyPath.isSmaller)
-          collection = AnyRandomAccessCollection(result)
-        }
-        
-        if let distinctKeyPath = distinctMode {
-          let grouped = Dictionary(grouping: collection, by: distinctKeyPath.hashValue)
-          let result = grouped.values.compactMap(\.first)
-          collection = AnyRandomAccessCollection(result)
-        }
-        
-        return AnyRandomAccessCollection(collection)
-      })
-      .share(replay: 1)
-  }
-  
+extension RxRepository where Self: AnyObject, Self: Repository, Self.Model: Hashable {
+    
   public func getAll() -> Single<AnyRandomAccessCollection<Model>> {
     return Single.create { [weak self] single -> Disposable in
       let models = self?.getAll() ?? AnyRandomAccessCollection([])
@@ -84,7 +37,7 @@ extension UserDefaultsRepository: RxRepository {
   
   public func create(_ model: Model) -> Single<Model> {
     return Single.create { [weak self] single -> Disposable in
-      let result: RepositoryEditResult = self?.create(model) ?? .error(ReferenceError.weakReferenceNil)
+      let result: RepositoryEditResult = self?.create(model) ?? .error(RxRepositoryError.weakReferenceAppearedNil)
       switch result {
       case .success(let model):
         single(.success(model))
@@ -98,7 +51,7 @@ extension UserDefaultsRepository: RxRepository {
   
   public func create(_ models: [Model]) -> Single<[Model]> {
     return Single.create { [weak self] single -> Disposable in
-      let result: RepositoryEditResult = self?.create(models) ?? .error(ReferenceError.weakReferenceNil)
+      let result: RepositoryEditResult = self?.create(models) ?? .error(RxRepositoryError.weakReferenceAppearedNil)
       switch result {
       case .success(let models):
         single(.success(models))
@@ -112,7 +65,7 @@ extension UserDefaultsRepository: RxRepository {
   
   public func update(_ model: Model) -> Single<Model> {
     return Single.create { [weak self] single -> Disposable in
-      let result: RepositoryEditResult = self?.update(model) ?? .error(ReferenceError.weakReferenceNil)
+      let result: RepositoryEditResult = self?.update(model) ?? .error(RxRepositoryError.weakReferenceAppearedNil)
       switch result {
       case .success(let model):
         single(.success(model))
@@ -169,6 +122,6 @@ extension UserDefaultsRepository: RxRepository {
   }
 }
 
-public enum ReferenceError: Error {
-  case weakReferenceNil
+enum RxRepositoryError: Error {
+  case weakReferenceAppearedNil
 }
