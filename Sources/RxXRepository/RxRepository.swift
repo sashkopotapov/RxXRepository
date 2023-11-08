@@ -37,12 +37,12 @@ extension RxRepository {
     return observeElements(filteredBy: filter, sortedBy: sortKeyPath.map(ComparableKeyPath.init), distinctUsing: distinctKeyPath.map(HashableKeyPath.init))
   }
   
-  public  func observeElements<P: Predicate>(filteredByPredicate predicate: @autoclosure () -> P) -> Observable<AnyRandomAccessCollection<Model>> where P.ResultType == Model {
+    public  func observeElements<P: XRepository.Predicate>(filteredByPredicate predicate: @autoclosure () -> P) -> Observable<AnyRandomAccessCollection<Model>> where P.ResultType == Model {
     let filter = Query(predicate())
     return observeElements(filteredBy: filter, sortedBy: nil, distinctUsing: nil)
   }
   
-  public func observeElements<P: Predicate, T: Comparable>(filteredByPredicate predicate: @autoclosure () -> P, sortedBy sortKeyPath: KeyPath<Model, T>) -> Observable<AnyRandomAccessCollection<Model>> where P.ResultType == Model {
+    public func observeElements<P: XRepository.Predicate, T: Comparable>(filteredByPredicate predicate: @autoclosure () -> P, sortedBy sortKeyPath: KeyPath<Model, T>) -> Observable<AnyRandomAccessCollection<Model>> where P.ResultType == Model {
     let filter = Query(predicate())
     let sortMode = ComparableKeyPath(sortKeyPath)
     return observeElements(filteredBy: filter, sortedBy: sortMode, distinctUsing: nil)
@@ -58,7 +58,7 @@ extension RxRepository {
     return observeElements(filteredBy: nil, sortedBy: nil, distinctUsing: distinctMode)
   }
   
-  public func observeElements<P: Predicate, T: Comparable, U: Hashable>(filteredByPredicate predicate: @autoclosure () -> P, sortedBy sortKeyPath: KeyPath<Model, T>, distinctUsing distinctKeyPath: KeyPath<Model, U>) -> Observable<AnyRandomAccessCollection<Model>> where P.ResultType == Model {
+    public func observeElements<P: XRepository.Predicate, T: Comparable, U: Hashable>(filteredByPredicate predicate: @autoclosure () -> P, sortedBy sortKeyPath: KeyPath<Model, T>, distinctUsing distinctKeyPath: KeyPath<Model, U>) -> Observable<AnyRandomAccessCollection<Model>> where P.ResultType == Model {
     let filter = Query(predicate())
     let sortMode = ComparableKeyPath(sortKeyPath)
     let distinctMode = HashableKeyPath(distinctKeyPath)
@@ -71,12 +71,12 @@ extension RxRepository {
     return getElements(filteredBy: filter, sortedBy: sortKeyPath.map(ComparableKeyPath.init), distinctUsing: distinctKeyPath.map(HashableKeyPath.init))
   }
   
-  public func getElements<P: Predicate>(filteredByPredicate predicate: @autoclosure () -> P) -> Single<AnyRandomAccessCollection<Model>> where P.ResultType == Model {
+    public func getElements<P: XRepository.Predicate>(filteredByPredicate predicate: @autoclosure () -> P) -> Single<AnyRandomAccessCollection<Model>> where P.ResultType == Model {
     let filter = Query(predicate())
     return getElements(filteredBy: filter, sortedBy: nil, distinctUsing: nil)
   }
   
-  public func getElements<P: Predicate, T: Comparable>(filteredByPredicate predicate: @autoclosure () -> P, sortedBy sortKeyPath: KeyPath<Model, T>) -> Single<AnyRandomAccessCollection<Model>> where P.ResultType == Model {
+    public func getElements<P: XRepository.Predicate, T: Comparable>(filteredByPredicate predicate: @autoclosure () -> P, sortedBy sortKeyPath: KeyPath<Model, T>) -> Single<AnyRandomAccessCollection<Model>> where P.ResultType == Model {
     let filter = Query(predicate())
     let sortMode = ComparableKeyPath(sortKeyPath)
     return getElements(filteredBy: filter, sortedBy: sortMode, distinctUsing: nil)
@@ -92,7 +92,7 @@ extension RxRepository {
     return getElements(filteredBy: nil, sortedBy: nil, distinctUsing: distinctMode)
   }
   
-  public func getElements<P: Predicate, T: Comparable, U: Hashable>(filteredByPredicate predicate: @autoclosure () -> P, sortedBy sortKeyPath: KeyPath<Model, T>, distinctUsing distinctKeyPath: KeyPath<Model, U>) -> Single<AnyRandomAccessCollection<Model>> where P.ResultType == Model {
+    public func getElements<P: XRepository.Predicate, T: Comparable, U: Hashable>(filteredByPredicate predicate: @autoclosure () -> P, sortedBy sortKeyPath: KeyPath<Model, T>, distinctUsing distinctKeyPath: KeyPath<Model, U>) -> Single<AnyRandomAccessCollection<Model>> where P.ResultType == Model {
     let filter = Query(predicate())
     let sortMode = ComparableKeyPath(sortKeyPath)
     let distinctMode = HashableKeyPath(distinctKeyPath)
